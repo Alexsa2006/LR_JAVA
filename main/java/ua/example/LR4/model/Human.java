@@ -5,54 +5,54 @@ import java.util.Objects;
 public class Human {
     private String firstName;
     private String lastName;
-    private String middleName;
-    private Gender gender;
+    private String patronymic;
+    private Sex sex;
 
-    public Human(String firstName, String lastName, String middleName, Gender gender) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.middleName = middleName;
-        this.gender = gender;
+    public Human(String firstName, String lastName, String patronymic, Sex sex) {
+        setFirstName(firstName);
+        setLastName(lastName);
+        setPatronymic(patronymic);
+        setSex(sex);
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFirstName() { return firstName; }
+    public String getLastName() { return lastName; }
+    public String getPatronymic() { return patronymic; }
+    public Sex getSex() { return sex; }
+
+    public void setFirstName(String firstName) {
+        this.firstName = Objects.requireNonNull(firstName, "Ім'я не може бути null");
     }
 
-    public String getLastName() {
-        return lastName;
+    public void setLastName(String lastName) {
+        this.lastName = Objects.requireNonNull(lastName, "Прізвище не може бути null");
     }
 
-    public String getMiddleName() {
-        return middleName;
+    public void setPatronymic(String patronymic) {
+        this.patronymic = Objects.requireNonNull(patronymic, "По батькові не може бути null");
     }
 
-    public Gender getGender() {
-        return gender;
+    public void setSex(Sex sex) {
+        this.sex = Objects.requireNonNull(sex, "Стать не може бути null");
     }
 
     @Override
-    public String toString() {
-        return lastName + " " + firstName + " " + middleName + " (" + gender + ")";
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Human)) {
-            return false;
-        }
-        Human human = (Human) o;
-        return Objects.equals(firstName, human.firstName)
-                && Objects.equals(lastName, human.lastName)
-                && Objects.equals(middleName, human.middleName)
-                && gender == human.gender;
+    public boolean equals(Object object) {
+        if (this == object) { return true; }
+        if (object == null || getClass() != object.getClass()) { return false; }
+        Human other = (Human) object;
+        return Objects.equals(firstName, other.firstName)
+                && Objects.equals(lastName, other.lastName)
+                && Objects.equals(patronymic, other.patronymic) && sex == other.sex;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName, middleName, gender);
+        return Objects.hash(firstName, lastName, patronymic, sex);
+    }
+
+    @Override
+    public String toString() {
+        return lastName + " " + firstName + " " + patronymic;
     }
 }

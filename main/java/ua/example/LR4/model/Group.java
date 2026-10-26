@@ -6,35 +6,30 @@ import java.util.List;
 import java.util.Objects;
 
 public class Group extends NamedUnit {
-    private List<Student> students;
+    private final List<Student> students;
 
     public Group(String name, Human head, List<Student> students) {
         super(name, head);
-        this.students = new ArrayList<Student>(students);
+        this.students = new ArrayList<Student>(Objects.requireNonNull(students));
+        for (Student item : this.students) {
+            Objects.requireNonNull(item);
+        }
     }
 
     public List<Student> getStudents() {
         return Collections.unmodifiableList(students);
     }
 
-    @Override
-    public String toString() {
-        return super.toString() + ", студентів: " + students.size();
+    public void addStudent(Student item) {
+        students.add(Objects.requireNonNull(item));
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Group)) {
-            return false;
-        }
-        if (!super.equals(o)) {
-            return false;
-        }
-        Group group = (Group) o;
-        return Objects.equals(students, group.students);
+    public boolean equals(Object object) {
+        if (this == object) { return true; }
+        if (!super.equals(object)) { return false; }
+        Group other = (Group) object;
+        return Objects.equals(students, other.students);
     }
 
     @Override

@@ -2,7 +2,7 @@
 
 Гілка `lb4` містить лабораторну №4 на основі готової попередньої роботи, включно зі Swing-інтерфейсом.
 Використано існуючі моделі й Creator-контролери. Збережено структуру GitHub:
-`main/java` і `test/java`; ці шляхи явно налаштовано у Maven. Пакет `LR4`
+`main/java` і `test/java`; ці шляхи явно налаштовано у Maven. Пакет `ua.example.LR4`
 узгоджено з назвою лабораторної №4. Усі імпорти, шляхи й налаштування запуску оновлено.
 
 ## Збірка й запуск
@@ -17,7 +17,7 @@ java -jar target/java-labs-0-4-1.0-SNAPSHOT.jar
 ```
 
 На Linux/macOS: `./mvnw clean verify`. За наявності Maven у PATH:
-`mvn clean verify` і `mvn exec:java`. GUI запускає клас `LR4.Run`.
+`mvn clean verify` і `mvn exec:java`. GUI запускає клас `ua.example.LR4.Run`.
 JAR містить Gson, окремий classpath для запуску не потрібен.
 
 У цьому Windows-профілі символ `^` у шляхах JDK/TEMP заважає Surefire запустити
@@ -35,7 +35,7 @@ java -jar target/java-labs-0-4-1.0-SNAPSHOT.jar
 
 В IntelliJ IDEA відкрийте кореневий `pom.xml` як Maven-проєкт, виконайте Reload
 All Maven Projects та встановіть Project SDK. Maven позначить `main/java` як
-Sources, а `test/java` як Tests. Потім запускайте `LR4.Run` та JUnit-тести.
+Sources, а `test/java` як Tests. Потім запускайте `ua.example.LR4.Run` та JUnit-тести.
 
 ## Структура
 
@@ -43,27 +43,29 @@ Sources, а `test/java` як Tests. Потім запускайте `LR4.Run` т
 pom.xml                           Gson 2.11.0, JUnit Jupiter 5.10.3
 mvnw, mvnw.cmd                    Maven Wrapper
 .mvn/wrapper/maven-wrapper.properties
-main/java/LR4/
+main/java/ua/example/LR4/
   Run.java                        існуюча точка входу
   controller/                     Creator та *Creator з лабораторної №3
   model/                          Human, Student, Sex, NamedUnit,
                                   University, Faculty, Department, Group
   persistence/JsonManager.java     JSON та файлове збереження
   view/UniversityGUI.java          існуючий GUI + три JSON-кнопки
-main/java/ua/example/              попередні лабораторні, збережені
+main/java/ua/example/LR0/          HelloWorld.java
+main/java/ua/example/LR2/          MatrixApp.java
+main/java/ua/example/LR3/          попередня консольна лабораторна
 java/org/example/Lab2.java         попередня лабораторна, збережена
 org/example/Main.java             попередня лабораторна, збережена
-test/java/LR4/
+test/java/ua/example/LR4/
   UniversityVerification.java     існуюча перевірка лабораторної №3
   UniversityJsonTest.java         JSON, рівність і помилки
   UniversityGuiTest.java          регресія GUI та нові JSON-дії
   PreviousLabsTest.java           перевірки попередніх лабораторних
 ```
 
-У проєкті є два пакети моделі: `LR4.model` для Swing та
-`ua.example.LR4.model` для консольної версії. Обидва збережено; нових дублікатів
+У проєкті є два пакети моделі: `ua.example.LR4.model` для Swing та
+`ua.example.LR3.model` для консольної версії. Обидва збережено; нових дублікатів
 немає. У старому `NamedUnit.equals` усунуто несиметричне порівняння різних типів
-підрозділів. Нові можливості додано до пакета наявного GUI — `LR4`.
+підрозділів. Нові можливості додано до пакета GUI — `ua.example.LR4`.
 
 ## JsonManager і рівність
 
@@ -150,5 +152,5 @@ Swing-зображення оформлення: `target/gui-preview.png`. Си�
 - [Gson: офіційний посібник](https://google.github.io/gson/UserGuide.html)
 - [JUnit 5.10.3: офіційний посібник](https://docs.junit.org/5.10.3/user-guide/)
 
-Попередні точки входу `ua.example.lab0.HelloWorld`, `ua.example.lab2.MatrixApp`
-та `ua.example.LR4.Run` збережено.
+Попередні точки входу `ua.example.LR0.HelloWorld`, `ua.example.LR2.MatrixApp`
+та `ua.example.LR3.Run` збережено.

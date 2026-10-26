@@ -1,11 +1,27 @@
 package ua.example.LR4.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import ua.example.LR4.model.Group;
 import ua.example.LR4.model.Human;
+import ua.example.LR4.model.Sex;
 import ua.example.LR4.model.Student;
 
-public class GroupCreator {
+public class GroupCreator implements Creator<Group> {
+    private final StudentCreator studentCreator = new StudentCreator();
+
+    @Override
+    public Group create() {
+        return createTypical("КН-21");
+    }
+
+    public Group createTypical(String name) {
+        List<Student> students = new ArrayList<Student>();
+        students.add(studentCreator.create());
+        students.add(studentCreator.create("Марія", "Петренко", "Олександрівна", Sex.FEMALE));
+        return create(name, students.get(0), students);
+    }
+
     public Group create(String name, Human head, List<Student> students) {
         return new Group(name, head, students);
     }

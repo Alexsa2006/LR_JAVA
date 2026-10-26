@@ -6,35 +6,30 @@ import java.util.List;
 import java.util.Objects;
 
 public class Faculty extends NamedUnit {
-    private List<Department> departments;
+    private final List<Department> departments;
 
     public Faculty(String name, Human head, List<Department> departments) {
         super(name, head);
-        this.departments = new ArrayList<Department>(departments);
+        this.departments = new ArrayList<Department>(Objects.requireNonNull(departments));
+        for (Department item : this.departments) {
+            Objects.requireNonNull(item);
+        }
     }
 
     public List<Department> getDepartments() {
         return Collections.unmodifiableList(departments);
     }
 
-    @Override
-    public String toString() {
-        return super.toString() + ", кафедр: " + departments.size();
+    public void addDepartment(Department item) {
+        departments.add(Objects.requireNonNull(item));
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Faculty)) {
-            return false;
-        }
-        if (!super.equals(o)) {
-            return false;
-        }
-        Faculty faculty = (Faculty) o;
-        return Objects.equals(departments, faculty.departments);
+    public boolean equals(Object object) {
+        if (this == object) { return true; }
+        if (!super.equals(object)) { return false; }
+        Faculty other = (Faculty) object;
+        return Objects.equals(departments, other.departments);
     }
 
     @Override
