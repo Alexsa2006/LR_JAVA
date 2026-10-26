@@ -1,9 +1,9 @@
 # Лабораторна робота №4 — JUnit. JSON
 
-Гілка `lb4` продовжує готову лабораторну №3 з `lb3`, включно зі Swing-інтерфейсом.
+Гілка `lb4` містить лабораторну №4 на основі готової попередньої роботи, включно зі Swing-інтерфейсом.
 Використано існуючі моделі й Creator-контролери. Збережено структуру GitHub:
-`main/java` і `test/java`; ці шляхи явно налаштовано у Maven. Пакет `lab3`
-залишено для сумісності. Гілки `lb3` і `main` не змінюються.
+`main/java` і `test/java`; ці шляхи явно налаштовано у Maven. Пакет `LR4`
+узгоджено з назвою лабораторної №4. Усі імпорти, шляхи й налаштування запуску оновлено.
 
 ## Збірка й запуск
 
@@ -17,7 +17,7 @@ java -jar target/java-labs-0-4-1.0-SNAPSHOT.jar
 ```
 
 На Linux/macOS: `./mvnw clean verify`. За наявності Maven у PATH:
-`mvn clean verify` і `mvn exec:java`. GUI запускає клас `lab3.Run`.
+`mvn clean verify` і `mvn exec:java`. GUI запускає клас `LR4.Run`.
 JAR містить Gson, окремий classpath для запуску не потрібен.
 
 У цьому Windows-профілі символ `^` у шляхах JDK/TEMP заважає Surefire запустити
@@ -35,7 +35,7 @@ java -jar target/java-labs-0-4-1.0-SNAPSHOT.jar
 
 В IntelliJ IDEA відкрийте кореневий `pom.xml` як Maven-проєкт, виконайте Reload
 All Maven Projects та встановіть Project SDK. Maven позначить `main/java` як
-Sources, а `test/java` як Tests. Потім запускайте `lab3.Run` та JUnit-тести.
+Sources, а `test/java` як Tests. Потім запускайте `LR4.Run` та JUnit-тести.
 
 ## Структура
 
@@ -43,7 +43,7 @@ Sources, а `test/java` як Tests. Потім запускайте `lab3.Run` �
 pom.xml                           Gson 2.11.0, JUnit Jupiter 5.10.3
 mvnw, mvnw.cmd                    Maven Wrapper
 .mvn/wrapper/maven-wrapper.properties
-main/java/lab3/
+main/java/LR4/
   Run.java                        існуюча точка входу
   controller/                     Creator та *Creator з лабораторної №3
   model/                          Human, Student, Sex, NamedUnit,
@@ -51,19 +51,19 @@ main/java/lab3/
   persistence/JsonManager.java     JSON та файлове збереження
   view/UniversityGUI.java          існуючий GUI + три JSON-кнопки
 main/java/ua/example/              попередні лабораторні, збережені
-java/org/example/Lab2.java         попередній файл з lb3, збережений
-org/example/Main.java             попередній файл з lb3, збережений
-test/java/lab3/
+java/org/example/Lab2.java         попередня лабораторна, збережена
+org/example/Main.java             попередня лабораторна, збережена
+test/java/LR4/
   UniversityVerification.java     існуюча перевірка лабораторної №3
   UniversityJsonTest.java         JSON, рівність і помилки
   UniversityGuiTest.java          регресія GUI та нові JSON-дії
   PreviousLabsTest.java           перевірки попередніх лабораторних
 ```
 
-У `lb3` вже були два пакети моделі: `lab3.model` для Swing та
-`ua.example.lab3.model` для консольної версії. Обидва збережено; нових дублікатів
+У проєкті є два пакети моделі: `LR4.model` для Swing та
+`ua.example.LR4.model` для консольної версії. Обидва збережено; нових дублікатів
 немає. У старому `NamedUnit.equals` усунуто несиметричне порівняння різних типів
-підрозділів. Нові можливості додано до пакета наявного GUI — `lab3`.
+підрозділів. Нові можливості додано до пакета наявного GUI — `LR4`.
 
 ## JsonManager і рівність
 
@@ -135,7 +135,7 @@ Swing-зображення оформлення: `target/gui-preview.png`. Си�
 
 ## Демонстрація викладачу
 
-1. Покажіть гілку `lb4`, її походження від `lb3`, коміт `Lab 4: JSON and JUnit`.
+1. Покажіть гілку `lb4`, пакет `LR4`, коміт `Lab 4: JSON and JUnit`.
 2. Запустіть тести, покажіть `UniversityJsonTest`, `@TempDir` та обидві перевірки рівності.
 3. Запустіть GUI; покажіть дерево, відомості студента, згортання й розгортання.
 4. Натисніть **Зберегти JSON**, виберіть файл та відкрийте його в редакторі.
@@ -151,4 +151,4 @@ Swing-зображення оформлення: `target/gui-preview.png`. Си�
 - [JUnit 5.10.3: офіційний посібник](https://docs.junit.org/5.10.3/user-guide/)
 
 Попередні точки входу `ua.example.lab0.HelloWorld`, `ua.example.lab2.MatrixApp`
-та `ua.example.lab3.Run` збережено.
+та `ua.example.LR4.Run` збережено.
