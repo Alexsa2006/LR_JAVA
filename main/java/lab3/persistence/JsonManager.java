@@ -16,6 +16,8 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.AtomicMoveNotSupportedException;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Objects;
 import lab3.model.Department;
@@ -54,7 +56,23 @@ public final class JsonManager {
     }
 
     public void saveToFile(University university, Path file) throws IOException {
-        Files.write(file, toJson(university).getBytes(StandardCharsets.UTF_8));
+        byte[] json = toJson(university).getBytes(StandardCharsets.UTF_8);
+        Path destination = Objects.requireNonNull(file, "file").toAbsolutePath();
+        if (Files.isDirectory(destination)) {
+            throw new IOException("Шлях призначення є каталогом: " + destination);
+        }
+        Path temporary = Files.createTempFile(destination.getParent(), ".university-", ".tmp");
+        try {
+            Files.write(temporary, json);
+            try {
+                Files.move(temporary, destination,
+                        StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+            } catch (AtomicMoveNotSupportedException exception) {
+                Files.move(temporary, destination, StandardCopyOption.REPLACE_EXISTING);
+            }
+        } finally {
+            Files.deleteIfExists(temporary);
+        }
     }
 
     public University loadFromFile(Path file) throws IOException {

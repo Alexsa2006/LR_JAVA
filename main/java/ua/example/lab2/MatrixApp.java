@@ -120,19 +120,21 @@ public class MatrixApp {
     public static OptionalDouble calculateGeometricAverage(int[][] matrix) {
         int count = 0;
         double logSum = 0.0;
+        boolean containsZero = false;
         for (int[] row : matrix) {
             for (int value : row) {
                 if (value < 0) {
                     return OptionalDouble.empty();
                 }
                 if (value == 0) {
-                    return OptionalDouble.of(0.0);
+                    containsZero = true;
+                } else {
+                    logSum += Math.log(value);
                 }
-                logSum += Math.log(value);
                 count++;
             }
         }
-        return OptionalDouble.of(Math.exp(logSum / count));
+        return OptionalDouble.of(containsZero ? 0.0 : Math.exp(logSum / count));
     }
 
     private static void printMatrix(int[][] matrix) {

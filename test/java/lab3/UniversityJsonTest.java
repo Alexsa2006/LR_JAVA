@@ -1,6 +1,7 @@
 package lab3;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonParseException;
 import java.io.IOException;
@@ -153,6 +154,62 @@ class UniversityJsonTest {
     void ioFailuresAreReported() {
         assertThrows(IOException.class, () -> manager.loadFromFile(temporaryDirectory.resolve("absent.json")));
         assertThrows(IOException.class, () -> manager.saveToFile(Run.createTypycalUniversity(), temporaryDirectory));
+    }
+
+    @Test
+    void overwritingJsonKeepsTheLatestDataAndLeavesNoTemporaryFiles() throws IOException {
+        Path file = temporaryDirectory.resolve("університет.json");
+        University university = Run.createTypycalUniversity();
+        manager.saveToFile(university, file);
+        university.setName("Оновлений університет");
+        manager.saveToFile(university, file);
+        assertEquals(university, manager.loadFromFile(file));
+        assertThrows(NullPointerException.class, () -> manager.saveToFile(null, file));
+        assertEquals(university, manager.loadFromFile(file));
+        try (Stream<Path> files = Files.list(temporaryDirectory)) {
+            assertEquals(1L, files.count());
+        }
+    }
+
+    @Test
+    void failedSaveDoesNotReplaceAnExistingDirectory() throws IOException {
+        Path directory = Files.createDirectory(temporaryDirectory.resolve("directory.json"));
+        Path existingFile = directory.resolve("keep.txt");
+        Files.write(existingFile, "keep".getBytes(StandardCharsets.UTF_8));
+        assertThrows(IOException.class, () -> manager.saveToFile(Run.createTypycalUniversity(), directory));
+        assertEquals("keep", new String(Files.readAllBytes(existingFile), StandardCharsets.UTF_8));
+        try (Stream<Path> files = Files.list(temporaryDirectory)) {
+            assertEquals(1L, files.count());
+        }
+    }
+
+    @ParameterizedTest
+    @MethodSource("invalidFields")
+    void invalidFieldsThroughoutHierarchyAreRejected(Consumer<JsonObject> invalidate) {
+        JsonObject json = JsonParser.parseString(manager.toJson(Run.createTypycalUniversity())).getAsJsonObject();
+        invalidate.accept(json);
+        assertThrows(JsonParseException.class, () -> manager.fromJson(json.toString()));
+    }
+
+    static Stream<Consumer<JsonObject>> invalidFields() {
+        return Stream.of(
+                json -> json.add("head", null),
+                json -> json.add("faculties", null),
+                json -> { JsonArray faculties = new JsonArray(); faculties.add((JsonObject) null);
+                    json.add("faculties", faculties); },
+                json -> json.getAsJsonObject("head").addProperty("kind", "unknown"),
+                json -> json.getAsJsonObject("head").remove("firstName"),
+                json -> json.getAsJsonObject("head").add("sex", null),
+                json -> json.getAsJsonArray("faculties").get(0).getAsJsonObject().remove("departments"),
+                json -> firstGroupJson(json).add("students", null),
+                json -> firstGroupJson(json).getAsJsonArray("students").get(0)
+                        .getAsJsonObject().addProperty("kind", "human"));
+    }
+
+    private static JsonObject firstGroupJson(JsonObject json) {
+        return json.getAsJsonArray("faculties").get(0).getAsJsonObject()
+                .getAsJsonArray("departments").get(0).getAsJsonObject()
+                .getAsJsonArray("groups").get(0).getAsJsonObject();
     }
 
     @Test
