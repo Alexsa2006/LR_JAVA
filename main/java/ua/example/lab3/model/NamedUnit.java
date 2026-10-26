@@ -29,7 +29,7 @@ public abstract class NamedUnit {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof NamedUnit)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         NamedUnit namedUnit = (NamedUnit) o;

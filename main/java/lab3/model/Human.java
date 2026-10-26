@@ -37,6 +37,21 @@ public class Human {
     }
 
     @Override
+    public boolean equals(Object object) {
+        if (this == object) { return true; }
+        if (object == null || getClass() != object.getClass()) { return false; }
+        Human other = (Human) object;
+        return Objects.equals(firstName, other.firstName)
+                && Objects.equals(lastName, other.lastName)
+                && Objects.equals(patronymic, other.patronymic) && sex == other.sex;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName, patronymic, sex);
+    }
+
+    @Override
     public String toString() {
         return lastName + " " + firstName + " " + patronymic;
     }

@@ -23,4 +23,17 @@ public class Group extends NamedUnit {
     public void addStudent(Student item) {
         students.add(Objects.requireNonNull(item));
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) { return true; }
+        if (!super.equals(object)) { return false; }
+        Group other = (Group) object;
+        return Objects.equals(students, other.students);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), students);
+    }
 }

@@ -23,4 +23,17 @@ public class University extends NamedUnit {
     public void addFaculty(Faculty item) {
         faculties.add(Objects.requireNonNull(item));
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) { return true; }
+        if (!super.equals(object)) { return false; }
+        University other = (University) object;
+        return Objects.equals(faculties, other.faculties);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), faculties);
+    }
 }

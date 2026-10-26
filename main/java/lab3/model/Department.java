@@ -23,4 +23,17 @@ public class Department extends NamedUnit {
     public void addGroup(Group item) {
         groups.add(Objects.requireNonNull(item));
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) { return true; }
+        if (!super.equals(object)) { return false; }
+        Department other = (Department) object;
+        return Objects.equals(groups, other.groups);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), groups);
+    }
 }

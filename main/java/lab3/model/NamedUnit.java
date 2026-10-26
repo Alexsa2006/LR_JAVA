@@ -23,6 +23,19 @@ public abstract class NamedUnit {
     }
 
     @Override
+    public boolean equals(Object object) {
+        if (this == object) { return true; }
+        if (object == null || getClass() != object.getClass()) { return false; }
+        NamedUnit other = (NamedUnit) object;
+        return Objects.equals(name, other.name) && Objects.equals(head, other.head);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, head);
+    }
+
+    @Override
     public String toString() {
         return name;
     }
